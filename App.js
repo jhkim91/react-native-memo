@@ -9,8 +9,9 @@ import {
   Platform, // 플랫폼 확인(android, ios 등)
   ScrollView
 } from 'react-native';
-import Todo from "./ToDo";
 import { AppLoading } from "expo";
+import Todo from "./ToDo";
+import uuidv1 from "uuid/v1"; //터미널에서 다음명령어 입력 import uuidv1 from "uuid/v1"
 
 const {height, width } = Dimensions.get("window");
 
@@ -40,8 +41,9 @@ export default class App extends Component {
                 value={newToDo}
                 onChangeText={this._controlNewToDo}
                 placeholderTextColor={"#999"}
-                returnKeyType="done"
+                returnKeyType={"done"}
                 autoCorrect={false}
+                onEndEditing={this._addToDo}
             />
             <ScrollView contentContainerStyle={styles.toDos}>
               <Todo text={"Hello I'm a To Do"}/>
@@ -59,6 +61,31 @@ export default class App extends Component {
     this.setState({
       loadedToDos: true
     })
+  }
+  _addToDo = () => {
+    const { newToDo } = this.state;
+    if(newToDo !== "") {
+      this.setState(prevState => {
+        const ID = uuidv1();
+        const newToDoObject = {
+          [ID]: {
+            id: ID,
+            isCompleted: false,
+            text: newToDo,
+            createdAt: Date.now()
+          }
+        };
+        const newState = {
+          ...prevState,
+          newToDo: '',
+          toDos: {
+            ...prevState.toDos,
+            ...newToDoObject
+          }
+        }
+        return { ...newState };
+      })
+    }
   }
 }
 
