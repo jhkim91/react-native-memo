@@ -6,8 +6,10 @@ import {
   StatusBar, //
   TextInput,  // input 사용시 추가
   Dimensions, // 디바이스 크기 확인
-  Platform // 플랫폼 확인(android, ios 등)
+  Platform, // 플랫폼 확인(android, ios 등)
+  ScrollView
 } from 'react-native';
+import Todo from "./ToDo";
 
 const {height, width } = Dimensions.get("window");
 
@@ -16,7 +18,7 @@ export default class App extends React.Component {
     newToDo: ""
   };
   render() {
-    const { newToDo } = this.state
+    const { newToDo } = this.state;
     return (
         <View style={styles.container}>
           <StatusBar barStyle="light-content"/>
@@ -30,7 +32,10 @@ export default class App extends React.Component {
                 placeholderTextColor={"#999"}
                 returnKeyType="done"
                 autoCorrect={false}
-            ></TextInput>
+            />
+            <ScrollView>
+              <Todo />
+            </ScrollView>
           </View>
         </View>
     );
