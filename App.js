@@ -10,15 +10,25 @@ import {
   ScrollView
 } from 'react-native';
 import Todo from "./ToDo";
+import { AppLoading } from "expo";
 
 const {height, width } = Dimensions.get("window");
 
-export default class App extends React.Component {
+export default class App extends Component {
   state = {
-    newToDo: ""
+    newToDo: "",
+    loadedToDos: false
   };
+
+  componentDidMount = () => {
+    this._loadToDos();
+  }
+
   render() {
-    const { newToDo } = this.state;
+    const { newToDo, loadedToDos } = this.state;
+    if(!loadedToDos) {
+      return <AppLoading />;
+    }
     return (
         <View style={styles.container}>
           <StatusBar barStyle="light-content"/>
@@ -43,6 +53,11 @@ export default class App extends React.Component {
   _controlNewToDo = text => {
     this.setState({
       newToDo: text
+    })
+  }
+  _loadToDos = () => {
+    this.setState({
+      loadedToDos: true
     })
   }
 }
