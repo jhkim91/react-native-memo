@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { AppLoading } from "expo";
 import Todo from "./ToDo";
-import uuidv1 from "uuid/v1"; //터미널에서 다음명령어 입력 import uuidv1 from "uuid/v1"
+import uuidv1 from "uuid/v1"; //터미널에서 다음명령어 입력 npm install uuid --save
 
 const {height, width } = Dimensions.get("window");
 
@@ -49,7 +49,13 @@ export default class App extends Component {
             />
             <ScrollView contentContainerStyle={styles.toDos}>
               {Object.values(toDos).map(toDo => (
-                  <Todo key={toDo.id} {...toDo} deleteToDo={this._deleteToDo} />
+                  <Todo
+                      key={toDo.id}
+                      deleteToDo={this._deleteToDo}
+                      uncompleteToDo={this._uncompleteToDo}
+                      completeToDo={this._completeToDo}
+                      {...toDo}
+                  />
               ))}
             </ScrollView>
           </View>
@@ -101,6 +107,36 @@ export default class App extends Component {
       }
       return {...newState}
     })
+  };
+  _uncompleteToDo = (id) => {
+    this.setState(prevState => {
+      const newState = {
+        ...prevState,
+        toDos: {
+          ...prevState.toDos,
+          [id]: {
+            ...prevState.toDos[id],
+            isCompleted: false
+          }
+        }
+      };
+      return { ...newState };
+    });
+  };
+  _completeToDo = (id) => {
+    this.setState( prevState => {
+      const newState = {
+        ...prevState,
+        toDos: {
+          ...prevState.toDos,
+          [id]: {
+            ...prevState.toDos[id],
+            isCompleted: true
+          }
+        }
+      };
+      return { ...newState };
+    });
   };
 }
 
