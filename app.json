@@ -24,7 +24,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.Jmemo.app"
     },
     "android": {
       "package": "com.Jmemo.app"
